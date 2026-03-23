@@ -7,6 +7,8 @@
 nextflow.enable.dsl=2
 
 // --- Parameters ---
+params.input   = null   // Path to CSV samplesheet (required)
+params.outdir  = 'results'
 
 // --- Imports ---
 include { FASTQC } from './modules/nf-core/fastqc/main'
