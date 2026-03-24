@@ -10,6 +10,8 @@ nextflow.enable.dsl=2
 
 // --- Imports ---
 include { FASTQC } from './modules/nf-core/fastqc/main'
+
+include { MULTIQC } from './modules/nf-core/multiqc/main'
 // --- Workflow ---
 
 workflow {
