@@ -23,4 +23,4 @@ jobs:
       - uses: nf-core/setup-nf-test@v1
 
       - name: Run nf-test
-        run: nf-test test --profile docker --ci
+        run: nf-test test --ci
