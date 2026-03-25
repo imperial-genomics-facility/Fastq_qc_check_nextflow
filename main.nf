@@ -14,6 +14,26 @@ params.outdir  = 'results'
 include { FASTQC } from './modules/nf-core/fastqc/main'
 
 include { MULTIQC } from './modules/nf-core/multiqc/main'
+
+
+// --- Channel factory: parse CSV ---
+
+// Expected CSV columns: sample,fastq_1,fastq_2
+// For single-end reads, leave fastq_2 empty.
+def create_fastq_channel(samplesheet) {
+    channel
+        .fromPath(samplesheet, checkIfExists: true)
+        .splitCsv(header: true, strip: true)
+        .map { row ->
+            def meta = [id: row.sample]
+            def reads = row.fastq_2
+                ? [file(row.fastq_1, checkIfExists: true),
+                   file(row.fastq_2, checkIfExists: true)]
+                : [file(row.fastq_1, checkIfExists: true)]
+            [meta, reads]
+        }
+}
+
 // --- Workflow ---
 
 workflow {
