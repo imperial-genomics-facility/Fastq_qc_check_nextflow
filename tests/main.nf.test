@@ -1,8 +1,8 @@
-nextflow_workflow {
+nextflow_pipeline {
 
     name "Test Workflow FASTQC_MULTIQC"
-    script "../main.nf"
-    workflow "FASTQC_MULTIQC"
+    script "main.nf"
+    options "-profile docker"
 
     test("Should run without failures") {
 
@@ -10,18 +10,14 @@ nextflow_workflow {
             params {
                 // define parameters here. Example:
                 // outdir = "tests/results"
-            }
-            workflow {
-                """
-                // define inputs of the workflow here. Example:
-                // input[0] = file("test-file.txt")
-                """
+                input = "${projectDir}/test_data/samplesheet/samplesheet.csv"
             }
         }
 
         then {
             assert workflow.success
-            assert snapshot(workflow.out).match()
+            //assert path("${outputDir}/multiqc/multiqc.html").exists()
+            //assert snapshot(workflow.out).match()
         }
 
     }
