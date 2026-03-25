@@ -1,2 +1,2 @@
 sample,fastq_1,fastq_2
-WT_sample_1,https://raw.githubusercontent.com/imperial-genomics-facility/Fastq_qc_check_nextflow/test_data/fastq/SRR6357070_1.fastq.gz,https://raw.githubusercontent.com/imperial-genomics-facility/Fastq_qc_check_nextflow/test_data/fastq/SRR6357070_2.fastq.gz
+WT_sample_1,https://raw.githubusercontent.com/imperial-genomics-facility/Fastq_qc_check_nextflow/main/test_data/fastq/SRR6357070_1.fastq.gz,https://raw.githubusercontent.com/imperial-genomics-facility/Fastq_qc_check_nextflow/main/test_data/fastq/SRR6357070_2.fastq.gz
