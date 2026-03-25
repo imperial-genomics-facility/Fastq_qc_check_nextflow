@@ -36,27 +36,38 @@ def create_fastq_channel(samplesheet) {
 
 // --- Workflow ---
 
-workflow {
+workflow FASTQC_MULTIQC {
+    take:
+        ch_reads
 
     main:
-    // 1. Build the reads channel from the samplesheet
-    ch_reads = create_fastq_channel(params.input)
+        // 1. Run FASTQC on every sample
+        FASTQC(ch_reads)
 
-    // 2. Run FASTQC on every sample
-    FASTQC(ch_reads)
-
-    // 3. Collect all FASTQC reports and run MULTIQC
-    ch_multiqc_files = FASTQC.out.zip.collect{ it[1] }
+        // 2. Collect all FASTQC reports and run MULTIQC
+        ch_multiqc_files = FASTQC.out.zip.collect{ it[1] }
                         .map{ files -> [ [id: 'multiqc'], files ] }
 
-    MULTIQC(
-        ch_multiqc_files.combine( channel.value([ [], [], [], [] ]) )
-    )
+        MULTIQC(
+            ch_multiqc_files.combine( channel.value([ [], [], [], [] ]) )
+        )
+    emit:
+        html = FASTQC.out.html
+        report = MULTIQC.out.report
+
+
+}
+
+workflow {
+    main:
+        // 1. Build the reads channel from the samplesheet
+        ch_reads = create_fastq_channel(params.input)
+
+        FASTQC_MULTIQC(ch_reads)
+
     publish:
-    fastqc_html = FASTQC.out.html
-    multiqc_report = MULTIQC.out.report
-
-
+        fastqc_html = FASTQC_MULTIQC.out.html
+        multiqc_report = FASTQC_MULTIQC.out.report
 }
 
 // ── Output block: new-style publish directives ──────────────────────
