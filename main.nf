@@ -41,10 +41,12 @@ workflow FASTQC_MULTIQC {
         ch_reads
 
     main:
-        // 1. Run FASTQC on every sample
+        
+
+        // 2. Run FASTQC on every sample
         FASTQC(ch_reads)
 
-        // 2. Collect all FASTQC reports and run MULTIQC
+        // 3. Collect all FASTQC reports and run MULTIQC
         ch_multiqc_files = FASTQC.out.zip.collect{ it[1] }
                         .map{ files -> [ [id: 'multiqc'], files ] }
 
@@ -62,7 +64,6 @@ workflow {
     main:
         // 1. Build the reads channel from the samplesheet
         ch_reads = create_fastq_channel(params.input)
-
         FASTQC_MULTIQC(ch_reads)
 
     publish:
