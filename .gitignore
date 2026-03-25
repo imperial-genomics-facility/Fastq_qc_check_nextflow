@@ -147,6 +147,7 @@ venv.bak/
 *.nextflow.*
 *results
 *work
+*.nf-test
 
 # Spyder project settings
 .spyderproject
