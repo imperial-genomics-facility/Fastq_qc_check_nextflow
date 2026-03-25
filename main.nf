@@ -81,17 +81,3 @@ output {
         path 'multiqc'
     }
 }
-
-// --- Output ---
-output {
-    directory params.outdir
-    mode 'copy'
-
-    'fastqc' {
-        path 'fastqc'
-    }
-
-    'multiqc' {
-        path 'multiqc'
-    }
-}
