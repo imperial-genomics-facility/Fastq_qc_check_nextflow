@@ -18,6 +18,7 @@ include { MULTIQC } from './modules/nf-core/multiqc/main'
 
 workflow {
 
+    main:
     // 1. Build the reads channel from the samplesheet
     ch_reads = create_fastq_channel(params.input)
 
@@ -33,24 +34,20 @@ workflow {
         [],                                  // replace_names
         []                                   // sample_names
     )
-
-    // 4. Expose outputs for the publish directive
     publish:
-    FASTQC.out.html  >> 'fastqc'
-    FASTQC.out.zip   >> 'fastqc'
-    MULTIQC.out.report >> 'multiqc'
+    fastqc_html = FASTQC.out.html
+    multiqc_report = MULTIQC.out.report
+
+
 }
 
 // ── Output block: new-style publish directives ──────────────────────
 output {
-    directory params.outdir
-    mode 'copy'
-
-    'fastqc' {
+    fastqc_html {
         path 'fastqc'
     }
 
-    'multiqc' {
+    multiqc_report {
         path 'multiqc'
     }
 }
