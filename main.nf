@@ -46,13 +46,11 @@ workflow {
     FASTQC(ch_reads)
 
     // 3. Collect all FASTQC reports and run MULTIQC
+    ch_multiqc_files = FASTQC.out.zip.collect{ it[1] }
+                        .map{ files -> [ [id: 'multiqc'], files ] }
+
     MULTIQC(
-        FASTQC.out.zip.collect{ it[1] },   // strip meta, collect all zips
-        [],                                  // multiqc_config
-        [],                                  // extra_multiqc_config
-        [],                                  // multiqc_logo
-        [],                                  // replace_names
-        []                                   // sample_names
+        ch_multiqc_files.combine( channel.value([ [], [], [], [] ]) )
     )
     publish:
     fastqc_html = FASTQC.out.html
