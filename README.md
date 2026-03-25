@@ -188,8 +188,9 @@ Contributions are welcome! Please follow these steps:
 
 ## Authors
 
-- Jess (FastQC integration)
-- Hamza (MultiQC integration and documentation)
+- Jessica Tam
+- Hamza Halane
+- Avik Datta
 
 ## License
 
